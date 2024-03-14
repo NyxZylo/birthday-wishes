@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2487.4">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="en"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1">&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1">&lt;title&gt;生日快乐烟花秀&lt;/title&gt;</p>
+<p class="p1">&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>body {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>margin: 0;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>padding: 0;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>background-color: #000;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>overflow: hidden;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>canvas {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>display: block;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1">&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p1">&lt;canvas&gt;&lt;/canvas&gt;</p>
+<p class="p1">&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>var canvas = document.querySelector('canvas');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>var ctx = canvas.getContext('2d');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>canvas.width = window.innerWidth;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>canvas.height = window.innerHeight;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>var particles = [];</p>
+<p class="p1"><span class="Apple-converted-space">  </span>var colors = ['#FF0000', '#FF7F00', '#FFFF00', '#00FF00', '#0000FF', '#4B0082', '#9400D3'];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>function Particle(x, y, color) {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>this.x = x;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>this.y = y;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>this.color = color;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>this.radius = Math.random() * 5 + 2;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>this.life = Math.random() * 20 + 20;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>this.xVel = Math.random() * 2 - 1;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>this.yVel = Math.random() * 2 - 1;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>this.update = function() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>this.x += this.xVel;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>this.y += this.yVel;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>this.life--;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>this.draw = function() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>ctx.beginPath();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>ctx.fillStyle = this.color;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>ctx.fill();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>};</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>function explode(x, y) {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>var particleCount = 30;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>for (var i = 0; i &lt; particleCount; i++) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>particles.push(new Particle(x, y, colors[Math.floor(Math.random() * colors.length)]));</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>function loop() {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>ctx.clearRect(0, 0, canvas.width, canvas.height);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>for (var i = particles.length - 1; i &gt;= 0; i--) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>particles[i].update();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>particles[i].draw();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (particles[i].life &lt;= 0) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>particles.splice(i, 1);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>requestAnimationFrame(loop);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>canvas.addEventListener('click', function(e) {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>explode(e.clientX, e.clientY);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>loop();</p>
+<p class="p1">&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
